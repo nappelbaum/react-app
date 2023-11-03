@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+
+
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteRule . /index.html [L]
+
+
+</IfModule>
+
+SetEnvIf Origin "^http(s)?://(.+\.)?(localhost:3000|nappelbaum.github\.io)$" origin_is=$0 
+Header always set Access-Control-Allow-Origin %{origin_is}e env=origin_is
+
+Header set Access-Control-Allow-Credentials: true
+Header set Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE,PUT"
+Header add Access-Control-Allow-Headers: "x-requested-with, content-type, origin, authorization, accept, client-security-token"
