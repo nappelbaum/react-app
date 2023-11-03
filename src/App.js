@@ -1,19 +1,14 @@
 // import { NavLink, Route, Router, Routes } from "react-router-dom";
 import React from "react";
-import { useLocation } from "react-router-dom";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import AppRouter from "./components/AppRouter";
+import { AuthProvider } from "./hoc/AuthProvider";
+// import PostService from "./API/PostService";
 
 function App() {
-  const location = useLocation();
-
   return (
-    <div className="app">
-      {location.pathname.split("/")[1] !== "users" && <Header />}
+    <AuthProvider>
       <AppRouter />
-      {location.pathname.split("/")[1] !== "users" && <Footer />}
-    </div>
+    </AuthProvider>
   );
 }
 

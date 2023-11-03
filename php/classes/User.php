@@ -55,7 +55,8 @@ class User
       if (password_verify($pass, $result["pass"])) {
         $_SESSION["id"] = $result["id"];
         setcookie(session_name(), session_id(), time()+3600*24*7, '/');
-        return json_encode(["result"=>"ok"]);
+        unset($result["pass"]);
+        return json_encode($result);
       } else {
         return json_encode(["result"=>"no_pass"]);
       }
@@ -100,7 +101,7 @@ class User
     $file = $_FILES["foto"];
     $fileExt = explode(".", $file["name"])[1];
     $fileName = $userId . "." . $fileExt;
-    $dirName = "img/users/" . $userId . "/";
+    $dirName = "../img/users/" . $userId . "/";
 
     if (!is_dir($dirName)) {
         mkdir($dirName);

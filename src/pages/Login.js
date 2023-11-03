@@ -1,9 +1,13 @@
 import React, { useRef, useState } from "react";
 import PostService from "../API/PostService";
+import { useAuth } from "../hook/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [showModal, setShowModal] = useState(false);
   const info = useRef();
+  const { signin } = useAuth();
+  const navigate = useNavigate();
 
   const sendForm = function (e) {
     e.preventDefault();
@@ -11,10 +15,11 @@ const Login = () => {
     formData.append("postName", "authUser");
 
     function authUser(res) {
-      if (res.data.result == "ok") {
+      if (Object.keys(res.data).length > 1) {
+        signin(res.data);
         setShowModal(true);
         setTimeout(() => {
-          location.href = "users/profile";
+          navigate("/users", { replace: true });
         }, 3000);
       } else if (res.data.result == "no_pass") {
         info.current.innerHTML = "Неправильный пароль";
