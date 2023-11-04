@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import PostService from "../API/PostService";
 import styles from "./Profile.module.css";
-import { NavLink } from "react-router-dom";
 import { useAuth } from "../hook/useAuth";
 
 const Profile = () => {
@@ -11,7 +10,7 @@ const Profile = () => {
 
   useEffect(() => {
     user.foto
-      ? setFotoSrc(`/img/users/${user.id}/${user.foto}`)
+      ? setFotoSrc(`/img/users/${user.id}/${user.foto}?rnd=${Math.random()}`)
       : setFotoSrc("/img/users/empty.png");
   }, []);
 
@@ -76,11 +75,6 @@ const Profile = () => {
         <p>
           Email: <span id="userEmail">{user.email}</span>
         </p>
-        <div className="w-50">
-          <NavLink className="btn btn-info btn-block" to={`/`}>
-            На главную
-          </NavLink>
-        </div>
       </div>
     </section>
   );

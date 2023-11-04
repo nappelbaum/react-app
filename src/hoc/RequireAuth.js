@@ -1,28 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hook/useAuth";
 import Loader from "../components/UI/loader/Loader";
+import { useGetUser } from "../hook/useGetUser";
 
 const RequireAuth = ({ children }) => {
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, signin } = useAuth();
+  const [go, setGo] = useState(false);
+  console.log(user);
 
-  if (!user.id) {
+  useEffect(() => {
+    useGetUser(signin, () => setGo(true));
+  }, []);
+
+  if (!go) {
     return (
       <div className="loader-wrapper">
         <Loader />
       </div>
     );
   } else {
-    if (!user.id) {
+    if (location.pathname.split("/")[1] == "users" && !user.id) {
       return (
         <Navigate
           to="/auth"
-          state={{ from: location.pathname }}
+          state={{ from: location.pathname + location.search }}
+          replace={true}
+        />
+      );
+    } else if (location.pathname == "/auth" && user.id) {
+      return (
+        <Navigate
+          to="/users"
+          state={{ from: location.pathname + location.search }}
           replace={true}
         />
       );
     }
+
     return children;
   }
 };

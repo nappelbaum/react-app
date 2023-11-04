@@ -7,7 +7,7 @@ import { useAuth } from "../hook/useAuth";
 import PostService from "../API/PostService";
 
 const Users = () => {
-  const { user } = useAuth();
+  const { user, signout } = useAuth();
   const navigate = useNavigate();
 
   const logOut = function () {
@@ -15,8 +15,8 @@ const Users = () => {
     formData.append("postName", "logOut");
 
     function logOutcb() {
+      signout();
       navigate("/auth", { replace: true });
-      // location.href = location.protocol + "//" + location.host + "/auth";
     }
     PostService(formData, logOutcb);
   };
@@ -38,6 +38,9 @@ const Users = () => {
             <div className="btn btn-info btn-block mt-5" onClick={logOut}>
               Выйти из аккаунта
             </div>
+            <NavLink className="btn btn-info btn-block" to={`/`}>
+              На главную
+            </NavLink>
           </div>
         </div>
         <div className="col-md-9">

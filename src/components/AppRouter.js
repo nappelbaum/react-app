@@ -7,22 +7,16 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import RequireAuth from "../hoc/RequireAuth";
 import { useAuth } from "../hook/useAuth";
-import PostService from "../API/PostService";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useGetUser } from "../hook/useGetUser";
 
 const AppRouter = () => {
   const { signin } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
-    const formData = new FormData();
-    formData.append("postName", "getUser");
-
-    function getUser(res) {
-      if (res.data.id) signin(res.data);
-    }
-    PostService(formData, getUser);
+    useGetUser(signin, () => {});
   }, []);
 
   return (
@@ -32,7 +26,14 @@ const AppRouter = () => {
         <Route path="/" element={<Main />} />
         <Route path="/contact" element={<Contacts />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/auth" element={<Login />} />
+        <Route
+          path="/auth"
+          element={
+            <RequireAuth>
+              <Login />
+            </RequireAuth>
+          }
+        />
         <Route
           path="/users/*"
           element={

@@ -3,10 +3,24 @@ import "../sass/style.scss";
 import { useAuth } from "../hook/useAuth";
 import logo from "../img/logo.png";
 import exitIcon from "../img/svg/exit-up.svg";
+import { useNavigate } from "react-router-dom";
+import PostService from "../API/PostService";
 
 const Header = () => {
-  const { user } = useAuth();
-  console.log(user);
+  const { user, signout } = useAuth();
+  const navigate = useNavigate();
+
+  const logOut = function () {
+    const formData = new FormData();
+    formData.append("postName", "logOut");
+
+    function logOutcb() {
+      signout();
+      navigate("/auth", { replace: true });
+    }
+    PostService(formData, logOutcb);
+  };
+
   return (
     <header className="header_area">
       <div className="main_menu">
@@ -115,7 +129,7 @@ const Header = () => {
                   <ul className="dropdown-menu">
                     <li className="nav-item">
                       <a className="nav-link" href="/auth">
-                        Вход
+                        {user.id ? "Личный кабинет" : "Вход"}
                       </a>
                     </li>
                     <li className="nav-item">
@@ -152,14 +166,16 @@ const Header = () => {
                 <li className="nav-item">
                   <div>
                     <a className="button button-header" href="/auth">
-                      <i className="ti-user fa-user-lc"></i>
-                      <span className="ml-3">Личный кабинет</span>
+                      {user.id && <i className="ti-user fa-user-lc mr-3"></i>}
+                      <span>{user.id ? "Личный кабинет" : "Вход"}</span>
                     </a>
                   </div>
                   <div>
-                    <button>
-                      <img src={exitIcon}></img>
-                    </button>
+                    {user.id && (
+                      <button onClick={logOut}>
+                        <img src={exitIcon}></img>
+                      </button>
+                    )}
                   </div>
                 </li>
               </ul>
