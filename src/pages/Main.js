@@ -1,10 +1,6 @@
 import React from "react";
-import { useAuth } from "../hook/useAuth";
 
 const Main = () => {
-  const { user } = useAuth();
-  console.log(user);
-
   return (
     <main className="site-main">
       <section className="hero-banner">

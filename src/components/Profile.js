@@ -9,16 +9,6 @@ const Profile = () => {
   const fileAlert = useRef();
   const [fotoSrc, setFotoSrc] = useState();
 
-  const logOut = function () {
-    const formData = new FormData();
-    formData.append("postName", "logOut");
-
-    function logOutcb() {
-      location.href = location.protocol + "//" + location.host + "/auth";
-    }
-    PostService(formData, logOutcb);
-  };
-
   useEffect(() => {
     user.foto
       ? setFotoSrc(`/img/users/${user.id}/${user.foto}`)
@@ -55,49 +45,44 @@ const Profile = () => {
   };
 
   return (
-    <div>
-      <section className="row mx-4 align-items-end">
-        <div className="col-sm-4">
-          <img className="mb-4" src={fotoSrc} width="100%" />
-          <div className="file">
-            <input
-              type="file"
-              accept=".jpg, .jpeg, .png, .gif, .webp"
-              className="file_input"
-              onChange={(e) => addFoto(e.target)}
-            />
-            <div className="btn btn-info btn-block file_btn">Измените фото</div>
-            <div
-              ref={fileAlert}
-              style={{ color: "red", paddingLeft: "0.75rem" }}
-            ></div>
-          </div>
+    <section className="row mx-4 align-items-end">
+      <div className="col-sm-4 mb-5 mb-sm-0">
+        <img className="mb-4" src={fotoSrc} width="100%" />
+        <div className="file">
+          <input
+            type="file"
+            accept=".jpg, .jpeg, .png, .gif, .webp"
+            className="file_input"
+            onChange={(e) => addFoto(e.target)}
+          />
+          <div className="btn btn-info btn-block file_btn">Измените фото</div>
+          <div
+            ref={fileAlert}
+            style={{ color: "red", paddingLeft: "0.75rem" }}
+          ></div>
         </div>
-        <div className="col-sm-8 pl-5">
-          <h4 className="mb-3">Информация о пользователе:</h4>
-          <p className={styles.id}>
-            Id: <span id="userId">{user.id}</span>
-          </p>
-          <p>
-            Имя и фамилия:{" "}
-            <span id="userName">
-              {user.name} {user.lastname}
-            </span>
-          </p>
-          <p>
-            Email: <span id="userEmail">{user.email}</span>
-          </p>
-          <div className="w-50">
-            <NavLink className="btn btn-info btn-block" to={`/`}>
-              На главную
-            </NavLink>
-            <div className="btn btn-info btn-block" onClick={logOut}>
-              Выйти из аккаунта
-            </div>
-          </div>
+      </div>
+      <div className="col-sm-8 pl-5">
+        <h3 className="mb-3">O пользователе:</h3>
+        <p className={styles.id}>
+          Id: <span id="userId">{user.id}</span>
+        </p>
+        <p>
+          Имя и фамилия:{" "}
+          <span id="userName">
+            {user.name} {user.lastname}
+          </span>
+        </p>
+        <p>
+          Email: <span id="userEmail">{user.email}</span>
+        </p>
+        <div className="w-50">
+          <NavLink className="btn btn-info btn-block" to={`/`}>
+            На главную
+          </NavLink>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 

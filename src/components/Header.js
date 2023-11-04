@@ -1,14 +1,19 @@
 import React from "react";
 import "../sass/style.scss";
+import { useAuth } from "../hook/useAuth";
+import logo from "../img/logo.png";
+import exitIcon from "../img/svg/exit-up.svg";
 
 const Header = () => {
+  const { user } = useAuth();
+  console.log(user);
   return (
     <header className="header_area">
       <div className="main_menu">
         <nav className="navbar navbar-expand-lg navbar-light">
           <div className="container">
             <a className="navbar-brand logo_h" href="/">
-              <img src={require("../img/logo.png")} alt="Logo" />
+              <img src={logo} alt="Logo" />
             </a>
             <button
               className="navbar-toggler"
@@ -145,9 +150,17 @@ const Header = () => {
                   </button>{" "}
                 </li>
                 <li className="nav-item">
-                  <a className="button button-header" href="/auth">
-                    Вход
-                  </a>
+                  <div>
+                    <a className="button button-header" href="/auth">
+                      <i className="ti-user fa-user-lc"></i>
+                      <span className="ml-3">Личный кабинет</span>
+                    </a>
+                  </div>
+                  <div>
+                    <button>
+                      <img src={exitIcon}></img>
+                    </button>
+                  </div>
                 </li>
               </ul>
             </div>
