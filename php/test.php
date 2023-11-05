@@ -18,4 +18,6 @@ if ($postName == "regUser") {
     // echo User::getUser(2);
 } else if ($postName == "addFoto") {
     echo User::addFoto($_POST["id"]);
+} else if ($postName == "getUsers") {
+    echo User::getUsers();
 }

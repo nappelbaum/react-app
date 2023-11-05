@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import Profile from "../components/Profile";
-import Messages from "../components/Messages";
+import UserList from "../components/UserList";
 import Friends from "../components/Friends";
 import { useAuth } from "../hook/useAuth";
 import PostService from "../API/PostService";
@@ -29,8 +29,8 @@ const Users = () => {
             <NavLink to={"profile"} className="nav-link">
               Профиль
             </NavLink>
-            <NavLink to={"messages"} className="nav-link">
-              Сообщения
+            <NavLink to={"userlist"} className="nav-link">
+              Список пользователей
             </NavLink>
             <NavLink to={"friends"} className="nav-link">
               Друзья
@@ -55,7 +55,7 @@ const Users = () => {
               }
             />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/messages" element={<Messages />} />
+            <Route path="/userlist" element={<UserList />} />
             <Route path="/friends" element={<Friends />} />
           </Routes>
         </div>

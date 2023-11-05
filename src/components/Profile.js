@@ -4,7 +4,7 @@ import styles from "./Profile.module.css";
 import { useAuth } from "../hook/useAuth";
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, signin } = useAuth();
   const fileAlert = useRef();
   const [fotoSrc, setFotoSrc] = useState();
 
@@ -30,11 +30,14 @@ const Profile = () => {
     formData.append("postName", "addFoto");
 
     function addFotocb(res) {
-      if (Object.keys(res.data).length > 1)
+      if (Object.keys(res.data).length > 1) {
         setFotoSrc(
           `/img/users/${res.data.id}/${res.data.foto}?rnd=${Math.random()}`
         );
-      else if (res.data.result == "error")
+        const userNewFoto = { ...user };
+        userNewFoto.foto = res.data.foto;
+        signin(userNewFoto);
+      } else if (res.data.result == "error")
         fileAlert.current.innerHTML =
           "Не удалось получить данные из базы данных";
       else fileAlert.current.innerHTML = "Что-то пошло не так";

@@ -2,7 +2,10 @@ import React from "react";
 import "../sass/style.scss";
 import { useAuth } from "../hook/useAuth";
 import logo from "../img/logo.png";
+import userIcon from "../img/svg/user.svg";
 import exitIcon from "../img/svg/exit-up.svg";
+import searchIcon from "../img/svg/search.svg";
+import cartIcon from "../img/svg/shopping-cart.svg";
 import { useNavigate } from "react-router-dom";
 import PostService from "../API/PostService";
 
@@ -154,26 +157,29 @@ const Header = () => {
               <ul className="nav-shop">
                 <li className="nav-item">
                   <button>
-                    <i className="ti-search"></i>
+                    <img src={searchIcon}></img>
                   </button>
                 </li>
                 <li className="nav-item">
                   <button>
-                    <i className="ti-shopping-cart"></i>
+                    <img src={cartIcon}></img>
                     <span className="nav-shop__circle">3</span>
                   </button>{" "}
                 </li>
                 <li className="nav-item">
                   <div>
-                    <a className="button button-header" href="/auth">
-                      {user.id && <i className="ti-user fa-user-lc mr-3"></i>}
+                    <a
+                      className="button button-header d-flex align-items-center"
+                      href="/auth"
+                    >
+                      {user.id && <img src={userIcon} className="mr-3"></img>}
                       <span>{user.id ? "Личный кабинет" : "Вход"}</span>
                     </a>
                   </div>
                   <div>
                     {user.id && (
                       <button onClick={logOut}>
-                        <img src={exitIcon}></img>
+                        <img src={exitIcon} title="Выход из аккаунта"></img>
                       </button>
                     )}
                   </div>
