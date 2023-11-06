@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import Profile from "../components/Profile";
 import UserList from "../components/UserList";
@@ -9,6 +9,11 @@ import PostService from "../API/PostService";
 const Users = () => {
   const { user, signout } = useAuth();
   const navigate = useNavigate();
+  const [friendsList, setFriendsList] = useState([]);
+
+  useEffect(() => {
+    setFriendsList(user.friends.split(","));
+  }, [user]);
 
   const logOut = function () {
     const formData = new FormData();
@@ -55,8 +60,14 @@ const Users = () => {
               }
             />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/userlist" element={<UserList />} />
-            <Route path="/friends" element={<Friends />} />
+            <Route
+              path="/userlist"
+              element={<UserList friendsList={friendsList} />}
+            />
+            <Route
+              path="/friends"
+              element={<Friends friendsList={friendsList} />}
+            />
           </Routes>
         </div>
       </div>

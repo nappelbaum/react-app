@@ -34,3 +34,13 @@
     background: url(./../../img/svg/loading_icon.gif) center / 50px no-repeat;
   }
 }
+
+.user-img-wrapper {
+  overflow: hidden;
+
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+}

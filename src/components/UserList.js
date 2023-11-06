@@ -1,55 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { useGetUsers } from "../hook/useGetUsers";
+import { useAuth } from "../hook/useAuth";
+import UsersTable from "./UsersTable";
+import { useAddFriend } from "../hook/useAddFriend";
 
-const UserList = () => {
+const UserList = ({ friendsList }) => {
   const [users, setUsers] = useState([]);
+  const { user, signin } = useAuth();
+
+  const addFriend = function (newFriendId) {
+    const userNewFriend = { ...user };
+    userNewFriend.friends += !userNewFriend.friends
+      ? newFriendId
+      : `,${newFriendId}`;
+
+    useAddFriend(user, userNewFriend, signin);
+  };
+
+  const deleteFriend = function (delFriendId) {
+    const userNewFriend = { ...user };
+    userNewFriend.friends = { ...user }.friends
+      .split(",")
+      .filter((el) => el !== delFriendId)
+      .join(",");
+    useAddFriend(user, userNewFriend, signin);
+  };
 
   useEffect(() => {
     useGetUsers((res) => {
-      console.log(res.data);
-      setUsers(res.data);
+      const exceptYou = res.data.filter((aUser) => aUser.id !== user.id);
+      setUsers(exceptYou);
     });
   }, []);
 
   return (
     <>
-      <h2>Список друзей:</h2>
-      <section className="row">
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Фамилия Имя</th>
-              <th scope="col">Email</th>
-              <th scope="col">Фото</th>
-            </tr>
-          </thead>
-          <tbody id="userListTable">
-            {users.map((user) => (
-              <tr key={user.id}>
-                <th scope="row">{user.id}</th>
-                <td>
-                  {user.lastname} {user.name}
-                </td>
-                <td>{user.email}</td>
-                <td>
-                  <img
-                    className="m-3"
-                    height="100px"
-                    src={
-                      user.foto
-                        ? `/img/users/${user.id}/${
-                            user.foto
-                          }?rnd=${Math.random()}`
-                        : "/img/users/empty.png"
-                    }
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
+      <h2>Список пользователей:</h2>
+      <UsersTable
+        users={users}
+        addFriend={addFriend}
+        friendsList={friendsList}
+        deleteFriend={deleteFriend}
+      />
     </>
   );
 };

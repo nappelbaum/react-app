@@ -78,7 +78,7 @@ class User
   static function getUser($userId) {
     global $mysqli;
     $mysqli->set_charset("utf8");
-    $result = $mysqli->query("SELECT `name`, `lastname`, `email`, `id`, `foto` FROM `users` WHERE `id`='$userId'");
+    $result = $mysqli->query("SELECT `name`, `lastname`, `email`, `id`, `foto`, `friends` FROM `users` WHERE `id`='$userId'");
     $result = $result->fetch_assoc();
     return json_encode($result);
   }
@@ -123,6 +123,18 @@ class User
       return json_encode($result);
     } else {
       return json_encode(["result"=>"error"]);
+    }
+  }
+
+  //статический метод добавления друга
+  static function addFriend($userId, $friends) {
+    global $mysqli;
+    $mysqli->set_charset("utf8");
+
+    $result = $mysqli->query("UPDATE `users` SET `friends`='$friends' WHERE `id`='$userId'");
+
+    if($result) {
+      return json_encode(["result"=>"ok"]);
     }
   }
 }

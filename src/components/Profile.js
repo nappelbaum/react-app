@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import PostService from "../API/PostService";
 import styles from "./Profile.module.css";
 import { useAuth } from "../hook/useAuth";
@@ -6,13 +6,10 @@ import { useAuth } from "../hook/useAuth";
 const Profile = () => {
   const { user, signin } = useAuth();
   const fileAlert = useRef();
-  const [fotoSrc, setFotoSrc] = useState();
-
-  useEffect(() => {
-    user.foto
-      ? setFotoSrc(`/img/users/${user.id}/${user.foto}?rnd=${Math.random()}`)
-      : setFotoSrc("/img/users/empty.png");
-  }, []);
+  const [edit, setEdit] = useState(false);
+  // const name = useRef();
+  // const lastname = useRef();
+  // const email = useRef();
 
   const addFoto = function (input) {
     const file = input.files[0];
@@ -31,25 +28,39 @@ const Profile = () => {
 
     function addFotocb(res) {
       if (Object.keys(res.data).length > 1) {
-        setFotoSrc(
-          `/img/users/${res.data.id}/${res.data.foto}?rnd=${Math.random()}`
-        );
         const userNewFoto = { ...user };
         userNewFoto.foto = res.data.foto;
         signin(userNewFoto);
       } else if (res.data.result == "error")
         fileAlert.current.innerHTML =
           "Не удалось получить данные из базы данных";
-      else fileAlert.current.innerHTML = "Что-то пошло не так";
+      else fileAlert.current.innerHTML = "Ошибка 404. Что-то пошло не так";
     }
 
     PostService(formData, addFotocb);
   };
 
+  const editData = function () {
+    setEdit(true);
+  };
+
+  const sendData = function (e) {
+    e.preventDefault();
+    setEdit(false);
+  };
+
   return (
     <section className="row mx-4 align-items-end">
       <div className="col-sm-4 mb-5 mb-sm-0">
-        <img className="mb-4" src={fotoSrc} width="100%" />
+        <img
+          className="mb-4"
+          src={
+            user.foto
+              ? `/img/users/${user.id}/${user.foto}?rnd=${Math.random()}`
+              : "/img/users/empty.png"
+          }
+          width="100%"
+        />
         <div className="file">
           <input
             type="file"
@@ -64,21 +75,69 @@ const Profile = () => {
           ></div>
         </div>
       </div>
-      <div className="col-sm-8 pl-5">
+      <form className="col-sm-8 pl-sm-5" onSubmit={(e) => sendData(e)}>
         <h3 className="mb-3">O пользователе:</h3>
         <p className={styles.id}>
-          Id: <span id="userId">{user.id}</span>
+          <span>Id: </span>
+          <span id="userId">{user.id}</span>
         </p>
         <p>
-          Имя и фамилия:{" "}
-          <span id="userName">
-            {user.name} {user.lastname}
+          <span>Имя: </span>
+          <span>
+            {!edit ? (
+              user.name
+            ) : (
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={user.name}
+              ></input>
+            )}
           </span>
         </p>
         <p>
-          Email: <span id="userEmail">{user.email}</span>
+          <span>Фамилия: </span>
+          <span>
+            {!edit ? (
+              user.lastname
+            ) : (
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={user.lastname}
+              ></input>
+            )}
+          </span>
         </p>
-      </div>
+        <p>
+          <span>Email: </span>
+          <span>
+            {!edit ? (
+              user.email
+            ) : (
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={user.email}
+              ></input>
+            )}
+          </span>
+        </p>
+        {!edit ? (
+          <div className="btn btn-info btn-block" onClick={editData}>
+            Редактировать данные
+          </div>
+        ) : (
+          <div className="d-flex">
+            <button className="btn btn-info btn-block mr-2" type="submit">
+              Отправить
+            </button>
+            <div className="btn btn-info btn-block mt-0" onClick={editData}>
+              Отменить
+            </div>
+          </div>
+        )}
+      </form>
     </section>
   );
 };

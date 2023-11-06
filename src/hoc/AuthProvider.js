@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
     lastname: "",
     email: "",
     foto: "",
+    friends: "",
   });
 
   const signin = (newUser) => {

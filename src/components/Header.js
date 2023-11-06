@@ -171,6 +171,7 @@ const Header = () => {
                     <a
                       className="button button-header d-flex align-items-center"
                       href="/auth"
+                      title={`${user.name} ${user.lastname}`}
                     >
                       {user.id && <img src={userIcon} className="mr-3"></img>}
                       <span>{user.id ? "Личный кабинет" : "Вход"}</span>
