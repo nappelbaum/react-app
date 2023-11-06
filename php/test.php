@@ -22,4 +22,6 @@ if ($postName == "regUser") {
     echo User::getUsers();
 } else if ($postName == "addFriend") {
     echo User::addFriend($_POST["id"], $_POST["friends"]);
+} else if ($postName == "editUser") {
+    echo User::editUser($_POST["id"], $_POST["name"], $_POST["lastname"], $_POST["email"]);
 }

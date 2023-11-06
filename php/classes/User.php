@@ -24,12 +24,15 @@ class User
   static function addUser($name, $lastname, $email, $pass) {
     global $mysqli;
     
+    $name = trim($name);
+    $lastname = trim($lastname);
     $email = mb_strtolower(trim($email));
     $pass = trim($pass);
     $pass = password_hash($pass, PASSWORD_DEFAULT);
 
     $mysqli->set_charset("utf8");
     $result = $mysqli->query("SELECT * FROM `users` WHERE`email`='$email'");
+
     if($result->num_rows != 0) {
       return json_encode(["result"=>"exist"]);
     } else {
@@ -135,6 +138,32 @@ class User
 
     if($result) {
       return json_encode(["result"=>"ok"]);
+    }
+  }
+
+  //статический метод редактирования данных пользователя
+  static function editUser($userId, $name, $lastname, $email) {
+    global $mysqli;
+    $mysqli->set_charset("utf8");
+
+    $name = trim($name);
+    $lastname = trim($lastname);
+    $email = mb_strtolower(trim($email));
+
+    $checkEmail = $mysqli->query("SELECT * FROM `users` WHERE`email`='$email'");
+    $checkEmailAssoc = $checkEmail->fetch_assoc();
+
+    if($checkEmail->num_rows != 0 && $checkEmailAssoc["id"] != $userId) {
+      return json_encode(["result"=>"exist"]);
+    } else {
+      $result = $mysqli->query("UPDATE `users` SET `name` = '$name', `lastname` = '$lastname', `email` = '$email' WHERE `id`='$userId'");
+      if($result) {
+        $result = $mysqli->query("SELECT `name`, `lastname`, `email`, `id`, `foto`, `friends` FROM `users` WHERE `id`='$userId'");
+        $result = $result->fetch_assoc();
+        return json_encode($result);
+      } else {
+        return json_encode(["result"=>"error"]);
+      }
     }
   }
 }
