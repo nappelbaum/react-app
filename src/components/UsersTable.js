@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const UsersTable = ({ users, addFriend, friendsList, deleteFriend }) => {
   return (
@@ -18,7 +19,9 @@ const UsersTable = ({ users, addFriend, friendsList, deleteFriend }) => {
             <tr key={user.id}>
               <th scope="row">{index + 1}</th>
               <td>
-                {user.lastname} {user.name}
+                <NavLink to={`/users/profile_id/${user.id}`}>
+                  {user.lastname} {user.name}
+                </NavLink>
               </td>
               <td>{user.email}</td>
               <td width="70" height="70" className="user-img-wrapper">

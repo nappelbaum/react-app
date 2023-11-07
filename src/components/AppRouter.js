@@ -10,6 +10,7 @@ import { useAuth } from "../hook/useAuth";
 import Header from "./Header";
 import Footer from "./Footer";
 import { useGetUser } from "../hook/useGetUser";
+import NotFound from "../pages/NotFound";
 
 const AppRouter = () => {
   const { signin } = useAuth();
@@ -42,6 +43,7 @@ const AppRouter = () => {
             </RequireAuth>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {location.pathname.split("/")[1] !== "users" && <Footer />}
     </>

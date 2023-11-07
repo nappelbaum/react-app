@@ -2,20 +2,25 @@ import React, { useRef, useState } from "react";
 import PostService from "../API/PostService";
 import styles from "./Profile.module.css";
 import { useAuth } from "../hook/useAuth";
+import Loader from "./UI/loader/Loader";
 
 const Profile = () => {
   const { user, signin } = useAuth();
   const fileAlert = useRef();
   const userAlert = useRef();
   const [edit, setEdit] = useState(false);
+  const [loaderData, setLoaderData] = useState(false);
+  const [loaderImg, setLoaderImg] = useState(false);
 
   const addFoto = function (input) {
     const file = input.files[0];
     fileAlert.current.innerHTML = "";
+    setLoaderImg(true);
 
     if (file.size > 2 * 1024 * 1024) {
       fileAlert.current.innerHTML = "Файл не должен превышать 2МБ";
       input.value = "";
+      setLoaderImg(false);
       return;
     }
 
@@ -33,6 +38,8 @@ const Profile = () => {
         fileAlert.current.innerHTML =
           "Не удалось получить данные из базы данных";
       else fileAlert.current.innerHTML = "Ошибка 404. Что-то пошло не так";
+
+      setLoaderImg(false);
     }
 
     PostService(formData, addFotocb);
@@ -40,7 +47,7 @@ const Profile = () => {
 
   const sendData = function (e) {
     e.preventDefault();
-    setEdit(false);
+    setLoaderData(true);
     userAlert.current.innerHTML = "";
 
     const formData = new FormData(e.target);
@@ -50,12 +57,15 @@ const Profile = () => {
     function editUser(res) {
       if (res.data.id) {
         signin(res.data);
+        setEdit(false);
       } else if (res.data.result == "exist")
         userAlert.current.innerHTML = "Этот e-mail занят. Придумайте другой";
       else if (res.data.result == "error")
         userAlert.current.innerHTML =
           "Не удалось получить данные из базы данных";
       else userAlert.current.innerHTML = "Ошибка 404. Что-то пошло не так";
+
+      setLoaderData(false);
     }
 
     PostService(formData, editUser);
@@ -64,6 +74,11 @@ const Profile = () => {
   return (
     <section className="row mx-4 align-items-end">
       <div className="col-sm-4 mb-5 mb-sm-0">
+        {loaderImg && (
+          <div className="loader-wrapper-abs">
+            <Loader />
+          </div>
+        )}
         <img
           className="mb-4"
           src={
@@ -84,7 +99,15 @@ const Profile = () => {
           <div ref={fileAlert} style={{ color: "red" }}></div>
         </div>
       </div>
-      <form className="col-sm-8 pl-sm-5" onSubmit={(e) => sendData(e)}>
+      <form
+        className="col-sm-8 pl-sm-5 user-edit-form"
+        onSubmit={(e) => sendData(e)}
+      >
+        {loaderData && (
+          <div className="loader-wrapper-abs">
+            <Loader />
+          </div>
+        )}
         <h3 className="mb-3">O пользователе:</h3>
         <p className={styles.id}>
           <span>Id: </span>
@@ -101,6 +124,7 @@ const Profile = () => {
                 name="name"
                 className="form-control"
                 defaultValue={user.name}
+                autoComplete="name"
               ></input>
             )}
           </span>
@@ -116,6 +140,7 @@ const Profile = () => {
                 name="lastname"
                 className="form-control"
                 defaultValue={user.lastname}
+                autoComplete="family-name"
               ></input>
             )}
           </span>
@@ -131,33 +156,27 @@ const Profile = () => {
                 name="email"
                 className="form-control"
                 defaultValue={user.email}
+                autoComplete="email"
               ></input>
             )}
           </span>
         </p>
         <div ref={userAlert} style={{ color: "red" }}></div>
         {!edit ? (
-          <div
-            className="btn btn-info btn-block"
-            onClick={() => {
-              setEdit(true);
-              userAlert.current.innerHTML = "";
-            }}
-          >
+          <div className="btn btn-info btn-block" onClick={() => setEdit(true)}>
             Редактировать данные
           </div>
         ) : (
           <div className="d-flex">
-            <button
-              className="btn btn-info btn-block mr-2"
-              type="submit"
-              onClick={() => (userAlert.current.innerHTML = "")}
-            >
+            <button className="btn btn-info btn-block mr-2" type="submit">
               Отправить
             </button>
             <div
               className="btn btn-info btn-block mt-0"
-              onClick={() => console.log("donlrwork")}
+              onClick={() => {
+                setEdit(false);
+                userAlert.current.innerHTML = "";
+              }}
             >
               Отменить
             </div>

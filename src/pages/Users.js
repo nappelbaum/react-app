@@ -5,6 +5,9 @@ import UserList from "../components/UserList";
 import Friends from "../components/Friends";
 import { useAuth } from "../hook/useAuth";
 import PostService from "../API/PostService";
+import NotFound from "./NotFound";
+import heroBanner from "../img/home/hero-banner.png";
+import ProfileID from "../components/ProfileID";
 
 const Users = () => {
   const { user, signout } = useAuth();
@@ -27,9 +30,15 @@ const Users = () => {
   };
 
   return (
-    <div className="container mx-auto my-5">
+    <div className="container mx-auto my-5 users-main">
+      <div className="users-back"></div>
+      <div className="left-side">
+        <div className="img-wrapper">
+          <img src={heroBanner} />
+        </div>
+      </div>
       <div className="row">
-        <div className="col-md-3 mb-5">
+        <div className="col-lg-3 mb-5">
           <div className="nav flex-column nav-pills">
             <NavLink to={"profile"} className="nav-link">
               Профиль
@@ -48,14 +57,14 @@ const Users = () => {
             </NavLink>
           </div>
         </div>
-        <div className="col-md-9">
+        <div className="col-lg-9">
           <Routes>
             <Route
               path="/"
               element={
-                <h2>
-                  Личный кабинет. Привет, {user.name}! Выберите один из пунктов
-                  слева.
+                <h2 style={{ lineHeight: "1.5" }}>
+                  Личный кабинет. <br />
+                  Привет, {user.name}!
                 </h2>
               }
             />
@@ -68,6 +77,8 @@ const Users = () => {
               path="/friends"
               element={<Friends friendsList={friendsList} />}
             />
+            <Route path="/profile_id/*" element={<ProfileID />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>

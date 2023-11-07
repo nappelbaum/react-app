@@ -5,7 +5,9 @@ const PostService = (data, callback) => {
     try {
       callback(res);
     } catch (e) {
-      alert("Ошибка подключения к базе данных");
+      alert(
+        "Ошибка подключения к базе данных. Поробуйте перезагрузить страницу"
+      );
     }
   });
 };
