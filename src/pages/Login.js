@@ -1,6 +1,9 @@
 import React, { useRef, useState } from "react";
 import PostService from "../API/PostService";
 import { useAuth } from "../hook/useAuth";
+import LoginBanner from "../components/LoginBanner";
+import { NavLink } from "react-router-dom";
+import ModalWin from "../components/UI/modal/ModalWin";
 
 const Login = () => {
   const [showModal, setShowModal] = useState(false);
@@ -34,25 +37,7 @@ const Login = () => {
 
   return (
     <div>
-      <section className="blog-banner-area" id="category">
-        <div className="container h-100">
-          <div className="blog-banner">
-            <div className="text-center">
-              <h1>Login / Register</h1>
-              <nav aria-label="breadcrumb" className="banner-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <a href="#">Home</a>
-                  </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    Login/Register
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </section>
+      <LoginBanner bannerHeader={"Login / Register"} />
 
       <section className="login_box_area section-margin">
         <div className="container">
@@ -64,9 +49,9 @@ const Login = () => {
                   <p>
                     Хотите быть в курсе последних достижений в науке и технике?
                   </p>
-                  <a className="button button-account" href="/register">
+                  <NavLink className="button button-account" to={"/register"}>
                     Зарегистрируйтесь
-                  </a>
+                  </NavLink>
                 </div>
               </div>
             </div>
@@ -113,28 +98,13 @@ const Login = () => {
         </div>
       </section>
 
-      <div
-        className={`modal fade${showModal ? " show-modal" : ""}`}
-        data-backdrop="static"
-        data-keyboard="false"
-        tabIndex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header justify-content-center">
-              <h5 className="modal-title text-center" id="staticBackdropLabel">
-                Вы успешно авторизованы. Поздравляем!
-              </h5>
-            </div>
-            <div className="modal-body text-center">
-              В течении нескольких секунд вы будете перенаправлены в личный
-              кабинет.
-            </div>
-          </div>
-        </div>
-      </div>
+      <ModalWin
+        showModal={showModal}
+        header={"Вы успешно авторизованы. Поздравляем!"}
+        caption={
+          "В течении нескольких секунд вы будете перенаправлены в личный кабинет."
+        }
+      />
     </div>
   );
 };

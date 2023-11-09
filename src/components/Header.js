@@ -6,7 +6,7 @@ import userIcon from "../img/svg/user.svg";
 import exitIcon from "../img/svg/exit-up.svg";
 import searchIcon from "../img/svg/search.svg";
 import cartIcon from "../img/svg/shopping-cart.svg";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import PostService from "../API/PostService";
 
 const Header = () => {
@@ -29,9 +29,9 @@ const Header = () => {
       <div className="main_menu">
         <nav className="navbar navbar-expand-lg navbar-light">
           <div className="container">
-            <a className="navbar-brand logo_h" href="/">
+            <NavLink className="navbar-brand logo_h" to={"/"}>
               <img src={logo} alt="Logo" />
-            </a>
+            </NavLink>
             <button
               className="navbar-toggler"
               type="button"
@@ -51,48 +51,14 @@ const Header = () => {
             >
               <ul className="nav navbar-nav menu_nav ml-auto mr-auto">
                 <li className="nav-item active">
-                  <a className="nav-link" href="/">
+                  <NavLink className="nav-link" to={"/"}>
                     Home
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item submenu dropdown">
-                  <a
-                    href="#"
-                    className="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
+                  <NavLink to={"/shop"} className="nav-link dropdown-toggle">
                     Shop
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li className="nav-item">
-                      <a className="nav-link" href="/category">
-                        Shop Category
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" href="/single-product">
-                        Product Details
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" href="/checkout">
-                        Product Checkout
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" href="/confirmation">
-                        Confirmation
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" href="/cart">
-                        Shopping Cart
-                      </a>
-                    </li>
-                  </ul>
+                  </NavLink>
                 </li>
                 <li className="nav-item submenu dropdown">
                   <a
@@ -103,54 +69,25 @@ const Header = () => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    Blog
+                    Login
                   </a>
                   <ul className="dropdown-menu">
                     <li className="nav-item">
-                      <a className="nav-link" href="/blog">
-                        Blog
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" href="/single-blog">
-                        Blog Details
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li className="nav-item submenu dropdown">
-                  <a
-                    href="#"
-                    className="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    Pages
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li className="nav-item">
-                      <a className="nav-link" href="/auth">
+                      <NavLink className="nav-link" to={"/auth"}>
                         {user.id ? "Личный кабинет" : "Вход"}
-                      </a>
+                      </NavLink>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link" href="/register">
+                      <NavLink className="nav-link" to={"/register"}>
                         Регистрация
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" href="/tracking-order">
-                        Tracking
-                      </a>
+                      </NavLink>
                     </li>
                   </ul>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/contact">
+                  <NavLink className="nav-link" to={"/contact"}>
                     Contact
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
 

@@ -16,7 +16,14 @@ export const AuthProvider = ({ children }) => {
     setUser(newUser);
   };
   const signout = () => {
-    setUser({ id: "", name: "", lastname: "", email: "", foto: "" });
+    setUser({
+      id: "",
+      name: "",
+      lastname: "",
+      email: "",
+      foto: "",
+      friends: "",
+    });
   };
 
   const value = { user, signin, signout };

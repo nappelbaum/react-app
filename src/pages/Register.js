@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
 import PostService from "../API/PostService";
+import LoginBanner from "../components/LoginBanner";
+import ModalWin from "../components/UI/modal/ModalWin";
 
 const Register = () => {
   const [showModal, setShowModal] = useState(false);
@@ -26,25 +28,7 @@ const Register = () => {
 
   return (
     <div>
-      <section className="blog-banner-area" id="category">
-        <div className="container h-100">
-          <div className="blog-banner">
-            <div className="text-center">
-              <h1>Register</h1>
-              <nav aria-label="breadcrumb" className="banner-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <a href="#">Home</a>
-                  </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    Register
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </section>
+      <LoginBanner bannerHeader={"Register"} />
 
       <section className="login_box_area section-margin">
         <div className="container">
@@ -126,29 +110,13 @@ const Register = () => {
         </div>
       </section>
 
-      <div
-        className={`modal fade${showModal ? " show-modal" : ""}`}
-        id="modalRegister"
-        data-backdrop="static"
-        data-keyboard="false"
-        tabIndex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header justify-content-center">
-              <h5 className="modal-title text-center" id="staticBackdropLabel">
-                Вы успешно зарегистрированы. Поздравляем!
-              </h5>
-            </div>
-            <div className="modal-body text-center">
-              В течении нескольких секунд вы будете перенаправлены на страницу
-              авторизации.
-            </div>
-          </div>
-        </div>
-      </div>
+      <ModalWin
+        showModal={showModal}
+        header={"Вы успешно зарегистрированы. Поздравляем!"}
+        caption={
+          "В течении нескольких секунд вы будете перенаправлены на страницу авторизации."
+        }
+      />
     </div>
   );
 };

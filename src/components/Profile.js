@@ -125,6 +125,7 @@ const Profile = () => {
                 className="form-control"
                 defaultValue={user.name}
                 autoComplete="name"
+                required
               ></input>
             )}
           </span>
@@ -141,6 +142,7 @@ const Profile = () => {
                 className="form-control"
                 defaultValue={user.lastname}
                 autoComplete="family-name"
+                required
               ></input>
             )}
           </span>
@@ -157,6 +159,7 @@ const Profile = () => {
                 className="form-control"
                 defaultValue={user.email}
                 autoComplete="email"
+                required
               ></input>
             )}
           </span>

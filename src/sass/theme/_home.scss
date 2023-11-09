@@ -149,6 +149,17 @@
   &__img {
     position: relative;
 
+    .card-product__img-wrapper {
+      height: 255px;
+      overflow: hidden;
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
     &Overlay {
       background: rgba(255, 255, 255, 0.5);
       position: absolute;

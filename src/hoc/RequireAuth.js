@@ -22,21 +22,9 @@ const RequireAuth = ({ children }) => {
     );
   } else {
     if (location.pathname.split("/")[1] == "users" && !user.id) {
-      return (
-        <Navigate
-          to="/auth"
-          state={{ from: location.pathname + location.search }}
-          replace={true}
-        />
-      );
+      return <Navigate to="/auth" replace={true} />;
     } else if (location.pathname == "/auth" && user.id) {
-      return (
-        <Navigate
-          to="/users"
-          state={{ from: location.pathname + location.search }}
-          replace={true}
-        />
-      );
+      return <Navigate to="/users" replace={true} />;
     }
 
     return children;
