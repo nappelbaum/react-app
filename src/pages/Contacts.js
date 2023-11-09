@@ -35,7 +35,12 @@ const Contacts = () => {
   // }
 
   return (
-    <YMaps>
+    <YMaps
+      query={{
+        load: "package.full",
+        apikey: "2c01faf2-15f0-4a0f-861c-42f4e6702a65",
+      }}
+    >
       <div>
         <LoginBanner bannerHeader={"Наши контакты"} />
 
