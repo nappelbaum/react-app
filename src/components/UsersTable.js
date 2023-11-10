@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 const UsersTable = ({ users, addFriend, friendsList, deleteFriend }) => {
   return (
     <section className="row">
-      <table className="table table-striped">
+      <table className="table table-striped mb-0">
         <thead>
           <tr>
             <th scope="col">#</th>
