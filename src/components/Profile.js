@@ -38,6 +38,8 @@ const Profile = () => {
         } else if (res.data.result == "error")
           fileAlert.current.innerHTML =
             "Не удалось получить данные из базы данных";
+        else if (res.data.result == "errorExt")
+          fileAlert.current.innerHTML = "Не допустимый формат файла";
         else fileAlert.current.innerHTML = "Ошибка 404. Что-то пошло не так";
 
         setLoaderImg(false);

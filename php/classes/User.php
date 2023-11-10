@@ -106,27 +106,32 @@ class User
     $fileName = $userId . "." . $fileExt;
     $dirName = "../img/users/" . $userId . "/";
 
-    if (!is_dir($dirName)) {
-        mkdir($dirName);
-    }
-
-    if(file_exists($dirName . $fileName)) {
-        unlink($dirName . $fileName); 
-    }
-    copy($file["tmp_name"], $dirName . $fileName);
+    if($fileExt == "jpg" || $fileExt == "jpeg" || $fileExt == "png" || $fileExt == "gif" || $fileExt == "webp") {
+      if (!is_dir($dirName)) {
+          mkdir($dirName);
+      }
   
-    global $mysqli;
-    $mysqli->set_charset("utf8");
-
-    $result = $mysqli->query("UPDATE `users` SET `foto`='$fileName' WHERE `id`='$userId'");
-
-    if($result) {
-      $result = $mysqli->query("SELECT `foto`, `id` FROM `users` WHERE `id`='$userId'");
-      $result = $result->fetch_assoc();
-      return json_encode($result);
+      if(file_exists($dirName . $fileName)) {
+          unlink($dirName . $fileName); 
+      }
+      copy($file["tmp_name"], $dirName . $fileName);
+    
+      global $mysqli;
+      $mysqli->set_charset("utf8");
+  
+      $result = $mysqli->query("UPDATE `users` SET `foto`='$fileName' WHERE `id`='$userId'");
+  
+      if($result) {
+        $result = $mysqli->query("SELECT `foto`, `id` FROM `users` WHERE `id`='$userId'");
+        $result = $result->fetch_assoc();
+        return json_encode($result);
+      } else {
+        return json_encode(["result"=>"error"]);
+      }
     } else {
-      return json_encode(["result"=>"error"]);
+      return json_encode(["result"=>"errorExt"]);
     }
+
   }
 
   //статический метод добавления друга
