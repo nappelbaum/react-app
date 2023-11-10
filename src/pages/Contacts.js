@@ -4,36 +4,6 @@ import { YMaps } from "@pbe/react-yandex-maps";
 import Map from "../components/UI/map/Map";
 
 const Contacts = () => {
-  //   const adressSpan = document.querySelector(".adress-span");
-
-  // ymaps.ready(init);
-
-  // function init() {
-  //   const myGeocoder = ymaps.geocode(adressSpan.textContent);
-  //   myGeocoder.then(
-  //     function (res) {
-  //       const coords = res.geoObjects.get(0).geometry.getCoordinates();
-
-  //       myMap = new ymaps.Map("map", {
-  //         center: coords,
-  //         zoom: 15,
-  //       });
-
-  //       const myPlacemark = new ymaps.Placemark(
-  //         coords,
-  //         { iconContent: "Boho-Home" },
-  //         {
-  //           preset: "islands#redStretchyIcon",
-  //         }
-  //       );
-  //       myMap.geoObjects.add(myPlacemark);
-  //     },
-  //     function (err) {
-  //       alert("Ошибка получения карты");
-  //     }
-  //   );
-  // }
-
   return (
     <YMaps
       query={{
@@ -42,7 +12,7 @@ const Contacts = () => {
       }}
     >
       <div>
-        <LoginBanner bannerHeader={"Наши контакты"} />
+        <LoginBanner bannerHeader={"Contacts"} />
 
         <section className="section-margin--small mt-5">
           <div className="container">

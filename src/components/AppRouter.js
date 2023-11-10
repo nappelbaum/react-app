@@ -10,8 +10,8 @@ import { useAuth } from "../hook/useAuth";
 import { useGetUser } from "../hook/useGetUser";
 import NotFound from "../pages/NotFound";
 import Shop from "../pages/Shop";
-import axios from "axios";
 import Layout from "./Layout";
+import { useGetProducts } from "../hook/useGetProducts";
 
 const AppRouter = () => {
   const { signin } = useAuth();
@@ -19,14 +19,7 @@ const AppRouter = () => {
 
   useEffect(() => {
     useGetUser(signin, () => {});
-
-    axios("https://bohohome.ru/php/getshop.php").then((res) => {
-      const newData = res.data.map((item) => {
-        item[2] = item[2].split(",")[0];
-        return item;
-      });
-      setProducts(newData);
-    });
+    useGetProducts(setProducts);
   }, []);
 
   return (
