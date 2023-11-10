@@ -6,12 +6,13 @@ import userIcon from "../img/svg/user.svg";
 import exitIcon from "../img/svg/exit-up.svg";
 import searchIcon from "../img/svg/search.svg";
 import cartIcon from "../img/svg/shopping-cart.svg";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import PostService from "../API/PostService";
 
 const Header = () => {
   const { user, signout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const logOut = function () {
     const formData = new FormData();
@@ -50,17 +51,30 @@ const Header = () => {
               id="navbarSupportedContent"
             >
               <ul className="nav navbar-nav menu_nav ml-auto mr-auto">
-                <li className="nav-item active">
+                <li
+                  className={`nav-item ${location.pathname == "/" && "active"}`}
+                >
                   <NavLink className="nav-link" to={"/"}>
                     Home
                   </NavLink>
                 </li>
-                <li className="nav-item submenu dropdown">
-                  <NavLink to={"/shop"} className="nav-link dropdown-toggle">
+                <li
+                  className={`nav-item ${
+                    location.pathname == "/shop" && "active"
+                  }`}
+                >
+                  <NavLink to={"/shop"} className="nav-link">
                     Shop
                   </NavLink>
                 </li>
-                <li className="nav-item submenu dropdown">
+                <li
+                  className={`nav-item submenu dropdown ${
+                    location.pathname == "/auth" ||
+                    location.pathname == "/register"
+                      ? "active"
+                      : ""
+                  }`}
+                >
                   <a
                     href="#"
                     className="nav-link dropdown-toggle"
@@ -84,7 +98,11 @@ const Header = () => {
                     </li>
                   </ul>
                 </li>
-                <li className="nav-item">
+                <li
+                  className={`nav-item ${
+                    location.pathname == "/contact" && "active"
+                  }`}
+                >
                   <NavLink className="nav-link" to={"/contact"}>
                     Contact
                   </NavLink>
