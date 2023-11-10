@@ -1,4 +1,7 @@
 import React from "react";
+import search from "../../img/svg/search.svg";
+import cart from "../../img/svg/shopping-cart.svg";
+import heart from "../../img/svg/heart.svg";
 
 const Products = ({ products }) => {
   return (
@@ -25,17 +28,17 @@ const Products = ({ products }) => {
                   <ul className="card-product__imgOverlay">
                     <li>
                       <button>
-                        <i className="ti-search"></i>
+                        <img src={search}></img>
                       </button>
                     </li>
                     <li>
                       <button>
-                        <i className="ti-shopping-cart"></i>
+                        <img src={cart}></img>
                       </button>
                     </li>
                     <li>
                       <button>
-                        <i className="ti-heart"></i>
+                        <img src={heart}></img>
                       </button>
                     </li>
                   </ul>

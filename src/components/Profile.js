@@ -14,35 +14,37 @@ const Profile = () => {
 
   const addFoto = function (input) {
     const file = input.files[0];
-    fileAlert.current.innerHTML = "";
-    setLoaderImg(true);
+    if (file) {
+      fileAlert.current.innerHTML = "";
+      setLoaderImg(true);
 
-    if (file.size > 2 * 1024 * 1024) {
-      fileAlert.current.innerHTML = "Файл не должен превышать 2МБ";
-      input.value = "";
-      setLoaderImg(false);
-      return;
+      if (file.size > 2 * 1024 * 1024) {
+        fileAlert.current.innerHTML = "Файл не должен превышать 2МБ";
+        input.value = "";
+        setLoaderImg(false);
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("id", user.id);
+      formData.append("foto", file);
+      formData.append("postName", "addFoto");
+
+      const addFotocb = function (res) {
+        if (res.data.id) {
+          const userNewFoto = { ...user };
+          userNewFoto.foto = res.data.foto;
+          signin(userNewFoto);
+        } else if (res.data.result == "error")
+          fileAlert.current.innerHTML =
+            "Не удалось получить данные из базы данных";
+        else fileAlert.current.innerHTML = "Ошибка 404. Что-то пошло не так";
+
+        setLoaderImg(false);
+      };
+
+      PostService(formData, addFotocb);
     }
-
-    const formData = new FormData();
-    formData.append("id", user.id);
-    formData.append("foto", file);
-    formData.append("postName", "addFoto");
-
-    function addFotocb(res) {
-      if (res.data.id) {
-        const userNewFoto = { ...user };
-        userNewFoto.foto = res.data.foto;
-        signin(userNewFoto);
-      } else if (res.data.result == "error")
-        fileAlert.current.innerHTML =
-          "Не удалось получить данные из базы данных";
-      else fileAlert.current.innerHTML = "Ошибка 404. Что-то пошло не так";
-
-      setLoaderImg(false);
-    }
-
-    PostService(formData, addFotocb);
   };
 
   const sendData = function (e) {

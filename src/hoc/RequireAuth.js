@@ -8,7 +8,7 @@ const RequireAuth = ({ children }) => {
   const location = useLocation();
   const { user, signin } = useAuth();
   const [go, setGo] = useState(false);
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {
     useGetUser(signin, () => setGo(true));

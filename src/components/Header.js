@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import "../sass/style.scss";
 import { useAuth } from "../hook/useAuth";
 import logo from "../img/logo.png";
@@ -13,6 +13,9 @@ const Header = () => {
   const { user, signout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [back, setBack] = useState(false);
+  const navbarSupport = useRef();
+  const navbarToggler = useRef();
 
   const logOut = function () {
     const formData = new FormData();
@@ -27,6 +30,17 @@ const Header = () => {
 
   return (
     <header className="header_area">
+      {back && (
+        <div
+          className="header_back"
+          onClick={() => {
+            navbarSupport.current.classList.remove("show");
+            navbarToggler.current.classList.add("collapsed");
+            navbarToggler.current.setAttribute("aria-expanded", "false");
+            setBack(false);
+          }}
+        ></div>
+      )}
       <div className="main_menu">
         <nav className="navbar navbar-expand-lg navbar-light">
           <div className="container">
@@ -41,6 +55,8 @@ const Header = () => {
               aria-controls="navbarSupportedContent"
               aria-expanded="false"
               aria-label="Toggle navigation"
+              onClick={() => (back ? setBack(false) : setBack(true))}
+              ref={navbarToggler}
             >
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
@@ -49,6 +65,7 @@ const Header = () => {
             <div
               className="collapse navbar-collapse offset"
               id="navbarSupportedContent"
+              ref={navbarSupport}
             >
               <ul className="nav navbar-nav menu_nav ml-auto mr-auto">
                 <li
