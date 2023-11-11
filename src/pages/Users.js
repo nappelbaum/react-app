@@ -30,7 +30,7 @@ const Users = () => {
   };
 
   return (
-    <div className="container mx-auto my-5 users-main">
+    <div className="container mx-auto mt-5 mb-3 users-main">
       <div className="users-back"></div>
       <div className="left-side">
         <div className="img-wrapper">

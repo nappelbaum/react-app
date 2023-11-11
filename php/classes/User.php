@@ -90,7 +90,7 @@ class User
   static function getUsers() {
     global $mysqli;
     $mysqli->set_charset("utf8");
-    $result = $mysqli->query("SELECT `name`, `lastname`, `email`, `id`, `foto` FROM `users` WHERE 1");
+    $result = $mysqli->query("SELECT `name`, `lastname`, `email`, `id`, `foto`, `friends` FROM `users` WHERE 1");
     
     while ($row = $result->fetch_assoc()) {
         $users[] = $row;
@@ -133,6 +133,26 @@ class User
     }
 
   }
+
+   //статический метод удаления фото
+   static function delFoto($userId) {
+      $dirName = "../img/users/" . $userId . "/";
+      foreach (glob($dirName . "*") as $file) {
+        unlink($file);
+      }
+      rmdir($dirName);
+
+      global $mysqli;
+      $mysqli->set_charset("utf8");
+
+      $result = $mysqli->query("UPDATE `users` SET `foto`='' WHERE `id`='$userId'");
+
+      if($result) {
+        return json_encode(["result"=>"ok"]);
+      } else {
+        return json_encode(["result"=>"error"]);
+      }
+   }
 
   //статический метод добавления друга
   static function addFriend($userId, $friends) {

@@ -26,4 +26,6 @@ if ($postName == "regUser") {
     echo User::editUser($_POST["id"], $_POST["name"], $_POST["lastname"], $_POST["email"]);
 } else if ($postName == "getUserID") {
     echo User::getUser($_POST["id"]);
-}
+} else if ($postName == "delFoto") {
+    echo User::delFoto($_POST["id"]);
+} 

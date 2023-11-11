@@ -3,6 +3,7 @@ import PostService from "../API/PostService";
 import styles from "./Profile.module.css";
 import { useAuth } from "../hook/useAuth";
 import Loader from "./UI/loader/Loader";
+import can from "../img/svg/can.svg";
 
 const Profile = () => {
   const { user, signin } = useAuth();
@@ -49,6 +50,23 @@ const Profile = () => {
     }
   };
 
+  const delFoto = function () {
+    const formData = new FormData();
+    formData.append("id", user.id);
+    formData.append("postName", "delFoto");
+
+    const delFotocb = function (res) {
+      if (res.data.result == "ok") {
+        const userNewFoto = { ...user };
+        userNewFoto.foto = "";
+        signin(userNewFoto);
+      } else if (res.data.result == "error")
+        fileAlert.current.innerHTML = "Не получилось удалить фото";
+    };
+
+    PostService(formData, delFotocb);
+  };
+
   const sendData = function (e) {
     e.preventDefault();
     setLoaderData(true);
@@ -92,15 +110,27 @@ const Profile = () => {
           }
           width="100%"
         />
-        <div className="file">
-          <input
-            type="file"
-            accept=".jpg, .jpeg, .png, .gif, .webp"
-            className="file_input"
-            onChange={(e) => addFoto(e.target)}
-          />
-          <div className="btn btn-info btn-block file_btn">Измените фото</div>
-          <div ref={fileAlert} style={{ color: "red" }}></div>
+        <div className="d-flex align-items-center">
+          <div className="file">
+            <input
+              type="file"
+              accept=".jpg, .jpeg, .png, .gif, .webp"
+              className="file_input"
+              onChange={(e) => addFoto(e.target)}
+            />
+            <div className="btn btn-info btn-block file_btn">Измените фото</div>
+            <div ref={fileAlert} style={{ color: "red" }}></div>
+          </div>
+          {user.foto && (
+            <div
+              className="d-flex align-items-center ml-3"
+              role="button"
+              title="Удалить фото"
+              onClick={delFoto}
+            >
+              <img src={can}></img>
+            </div>
+          )}
         </div>
       </div>
       <form

@@ -45,6 +45,7 @@
 
 .file {
   position: relative;
+  flex-grow: 1;
 }
 .file_input {
   position: absolute;
@@ -99,5 +100,12 @@
   }
   .Profile_id__RsspH {
     color: green;
+  }
+}
+
+.userId-name {
+  div {
+    color: #006100;
+    font-size: 12px;
   }
 }
