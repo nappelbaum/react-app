@@ -8,11 +8,15 @@ import PostService from "../API/PostService";
 import NotFound from "./NotFound";
 import heroBanner from "../img/home/hero-banner.png";
 import ProfileID from "../components/ProfileID";
+import DelModal from "../components/UI/modal/DelModal";
+import ModalWin from "../components/UI/modal/ModalWin";
 
 const Users = () => {
   const { user, signout } = useAuth();
   const navigate = useNavigate();
   const [friendsList, setFriendsList] = useState([]);
+  const [delModalOpen, setDelModalOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     setFriendsList(user.friends.split(","));
@@ -21,10 +25,13 @@ const Users = () => {
   const logOut = function () {
     const formData = new FormData();
     formData.append("postName", "logOut");
+    setShowModal(true);
 
     function logOutcb() {
-      signout();
-      navigate("/auth", { replace: true });
+      setTimeout(() => {
+        navigate("/", { replace: true });
+        signout();
+      }, 3000);
     }
     PostService(formData, logOutcb);
   };
@@ -49,7 +56,10 @@ const Users = () => {
             <NavLink to={"friends"} className="nav-link">
               Друзья
             </NavLink>
-            <div className="btn btn-info btn-block mt-5" onClick={logOut}>
+            <div
+              className="btn btn-info btn-block mt-5"
+              onClick={() => setDelModalOpen(true)}
+            >
               Выйти из аккаунта
             </div>
             <NavLink className="btn btn-info btn-block" to={`/`}>
@@ -82,6 +92,20 @@ const Users = () => {
           </Routes>
         </div>
       </div>
+      <DelModal
+        delModalOpen={delModalOpen}
+        setDelModalOpen={setDelModalOpen}
+        performFunc={logOut}
+        question="Действительно хотите выйти?"
+        performBtn="Выйти"
+      />
+      <ModalWin
+        showModal={showModal}
+        header={"Вы вышли из личного кабинета"}
+        caption={
+          "В течении нескольких секунд вы будете перенаправлены на главную страницу."
+        }
+      />
     </div>
   );
 };

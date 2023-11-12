@@ -4,6 +4,7 @@ import styles from "./Profile.module.css";
 import { useAuth } from "../hook/useAuth";
 import Loader from "./UI/loader/Loader";
 import can from "../img/svg/can.svg";
+import DelModal from "./UI/modal/DelModal";
 
 const Profile = () => {
   const { user, signin } = useAuth();
@@ -12,6 +13,7 @@ const Profile = () => {
   const [edit, setEdit] = useState(false);
   const [loaderData, setLoaderData] = useState(false);
   const [loaderImg, setLoaderImg] = useState(false);
+  const [delModalOpen, setDelModalOpen] = useState(false);
 
   const addFoto = function (input) {
     const file = input.files[0];
@@ -126,7 +128,7 @@ const Profile = () => {
               className="d-flex align-items-center ml-3"
               role="button"
               title="Удалить фото"
-              onClick={delFoto}
+              onClick={() => setDelModalOpen(true)}
             >
               <img src={can}></img>
             </div>
@@ -220,6 +222,13 @@ const Profile = () => {
           </div>
         )}
       </form>
+      <DelModal
+        delModalOpen={delModalOpen}
+        setDelModalOpen={setDelModalOpen}
+        performFunc={delFoto}
+        question="Подтвердите удаление фото"
+        performBtn="Удалить"
+      />
     </section>
   );
 };
