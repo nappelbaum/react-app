@@ -26,14 +26,16 @@ const DelModal = ({
   };
 
   const modalClose = function () {
-    modalForm.current.classList.remove("animated");
-    modalForm.current.classList.add("animated-rev");
-    overlay.current.style.opacity = "0";
-    const delay = exit ? 0 : 700;
-    setTimeout(() => {
-      modalForm.current.hidden = true;
-      overlay.current.hidden = true;
-    }, delay);
+    if (modalForm.current.hidden == false) {
+      modalForm.current.classList.remove("animated");
+      modalForm.current.classList.add("animated-rev");
+      overlay.current.style.opacity = "0";
+      const delay = exit ? 0 : 700;
+      setTimeout(() => {
+        modalForm.current.hidden = true;
+        overlay.current.hidden = true;
+      }, delay);
+    }
   };
 
   useEffect(() => {
