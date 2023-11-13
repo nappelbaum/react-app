@@ -12,6 +12,8 @@ import NotFound from "../pages/NotFound";
 import Shop from "../pages/Shop";
 import Layout from "./Layout";
 import { useGetProducts } from "../hook/useGetProducts";
+import Header from "./Header";
+import Footer from "./Footer";
 
 const AppRouter = () => {
   const { signin } = useAuth();
@@ -30,16 +32,18 @@ const AppRouter = () => {
           <Route path="shop" element={<Shop products={products} />} />
           <Route path="contact" element={<Contacts />} />
           <Route path="register" element={<Register />} />
-          <Route
-            path="auth"
-            element={
-              <RequireAuth>
-                <Login />
-              </RequireAuth>
-            }
-          />
           <Route path="*" element={<NotFound />} />
         </Route>
+        <Route
+          path="/auth"
+          element={
+            <RequireAuth>
+              <Header />
+              <Login />
+              <Footer />
+            </RequireAuth>
+          }
+        />
         <Route
           path="/users/*"
           element={

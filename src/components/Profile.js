@@ -17,8 +17,9 @@ const Profile = () => {
 
   const addFoto = function (input) {
     const file = input.files[0];
+    fileAlert.current.innerHTML = "";
+
     if (file) {
-      fileAlert.current.innerHTML = "";
       setLoaderImg(true);
 
       if (file.size > 2 * 1024 * 1024) {
@@ -53,6 +54,7 @@ const Profile = () => {
   };
 
   const delFoto = function () {
+    fileAlert.current.innerHTML = "";
     const formData = new FormData();
     formData.append("id", user.id);
     formData.append("postName", "delFoto");
